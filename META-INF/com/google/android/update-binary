@@ -71,16 +71,14 @@ if [ -f /tmp/anykernel/banner ]; then
   ui_print " ";
 fi;
 
-ui_print "$(file_getprop /tmp/anykernel/anykernel.sh kernel.string)";
+ui_print "SmartPack-Kernel $(cat /tmp/anykernel/ramdisk/version) for Oneplus 5/5T";
 if [ -f /tmp/anykernel/version ]; then
   ui_print " ";
-  while IFS='' read -r line || $bb [[ -n "$line" ]]; do
-    ui_print "$line";
-  done < /tmp/anykernel/version;
+  ui_print "$(cat /tmp/anykernel/version)";
   ui_print " ";
 fi;
 ui_print " ";
-ui_print "AnyKernel2 by osm0sis @ xda-developers";
+ui_print "...(c) sunilpaulmathew@xda-developers.com...";
 ui_print " ";
 ui_print " ";
 
@@ -103,7 +101,7 @@ if [ "$(file_getprop /tmp/anykernel/anykernel.sh do.devicecheck)" == 1 ]; then
       break;
     fi;
   done;
-  ui_print " ";
+  ui_print "Device is compatible...";
   if [ "$match" != 1 ]; then
     abort "Unsupported device. Aborting...";
   fi;
