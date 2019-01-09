@@ -10,7 +10,7 @@
 # begin properties
 properties() { '
 kernel.string=SmartPack Kernel by sunilpaulmathew@xda-developers.com
-do.devicecheck=1
+do.devicecheck=0
 do.modules=0
 do.cleanup=1
 do.cleanuponabort=0
@@ -38,7 +38,6 @@ ramdisk_compression=auto;
 chmod -R 750 $ramdisk/*;
 chown -R root:root $ramdisk/*;
 
-
 ## AnyKernel install
 
 # Don't allow flashing on non-Treble ROMs
@@ -54,15 +53,9 @@ ui_print "Checking android version...";
 android_ver=$(file_getprop /system/build.prop "ro.build.version.release");
 ui_print "Android $android_ver detected...";
 ui_print " ";
-if [ ! "$android_ver" == "8.1.0" ]; then
-  ui_print "This version of SmartPack-Kernel is only compatible with Android 8.1.0!";
+if [ ! "$android_ver" == "9" ]; then
+  ui_print "This version of SmartPack-Kernel is only compatible with Android 9!";
   exit 1;
-fi;
-
-# Apply patched wifi config only for OP5
-userflavor="$(file_getprop /system/build.prop "ro.build.user"):$(file_getprop /system/build.prop "ro.build.flavor")";
-if [ ! "$userflavor" == "OnePlus:OnePlus5-user" ]; then
-  rm $ramdisk/WCNSS_qcom_cfg.ini
 fi;
 
 dump_boot;
@@ -72,7 +65,6 @@ dump_boot;
 # init.rc
 backup_file init.rc;
 grep "import /init.SmartPack.rc" init.rc >/dev/null || sed -i '1,/.*import.*/s/.*import.*/import \/init.SmartPack.rc\n&/' init.rc
-grep "import /init.spectrum.rc" init.rc >/dev/null || sed -i '1,/.*import.*/s/.*import.*/import \/init.spectrum.rc\n&/' init.rc
 
 # init.tuna.rc
 
